@@ -1,0 +1,15 @@
+Package: vaplot
+Title: Variability Attribution Plots for Nonlinear Mixed Effect Models
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Sebastian",
+           family = "Ueckert",
+           role = c("aut", "cre"),
+           email = "sebastian.ueckert@gmail.com",
+           comment = c(ORCID = "0000-0002-3712-0255"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat
