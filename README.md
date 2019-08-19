@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.org/sebastianueckert/vaplot.svg?branch=master)](https://travis-ci.org/sebastianueckert/vaplot)
+[![Codecov test
+coverage](https://codecov.io/gh/sebastianueckert/vaplot/branch/master/graph/badge.svg)](https://codecov.io/gh/sebastianueckert/vaplot?branch=master)
 <!-- badges: end -->
 
 The goal of vaplot is to …

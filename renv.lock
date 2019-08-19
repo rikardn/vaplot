@@ -72,6 +72,12 @@
       "Source": "CRAN",
       "Hash": "81db9ecac744f619f980593cc9ea9c99"
     },
+    "vaplot": {
+      "Package": "vaplot",
+      "Version": "0.0.0.9000",
+      "Source": "unknown",
+      "Hash": "86ca9d37299e91b044106137dbac5df4"
+    },
     "withr": {
       "Package": "withr",
       "Version": "2.1.2",
