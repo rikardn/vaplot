@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.org/sebastianueckert/vaplot.svg?branch=master)](https://travis-ci.org/sebastianueckert/vaplot)
 <!-- badges: end -->
 
 The goal of vaplot is to …
