@@ -16,3 +16,4 @@ Suggests:
     covr
 URL: https://github.com/sebastianueckert/vaplot
 BugReports: https://github.com/sebastianueckert/vaplot/issues
+RoxygenNote: 6.1.1
