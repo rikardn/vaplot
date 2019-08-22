@@ -3,8 +3,15 @@ test_that("Schur complement calculation works", {
   expect_equal(schur_complement(m, 2), m[-2,-2])
 })
 
-test_that("linearized variance for f is calculated correctly", {
+test_that("variance for linearized f is calculated correctly", {
   df <- c(1,1)
   omega <- matrix(c(2,1,1,2),2,2)
   expect_equal(lvar_f(df, omega), matrix(2+2+2*1,1,1))
+})
+
+
+test_that("conditional variance for linearized f is calculated correctly", {
+  df <- c(a = 1, b = 1)
+  omega <- matrix(c(2,0,0,1),2,2, dimnames = list(c("a","b"), c("a","b")))
+  expect_equal(condvar_lf(df, omega, "a"), matrix(1,1,1))
 })
