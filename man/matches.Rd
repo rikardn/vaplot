@@ -3,9 +3,6 @@
 \name{matches}
 \alias{matches}
 \title{matches function}
-\usage{
-read_nm_derivative_results("run.lst", eta_columns = matches("^ETA"))
-}
 \description{
 See \code{tidyselect::\link[tidyselect:matches]{matches}} for details.
 }

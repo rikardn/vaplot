@@ -30,5 +30,4 @@ NULL
 #' @keywords internal
 #' @export
 #' @importFrom tidyselect matches
-#' @usage read_nm_derivative_results("run.lst", eta_columns = matches("^ETA"))
 NULL
