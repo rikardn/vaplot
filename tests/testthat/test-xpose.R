@@ -1,6 +1,17 @@
 skip_if_not_installed("xpose")
 
-xpdb <- xpose::xpose_data(file=system.file("testdata", "warfarin-pkpd.lst",package = "vaplot"))
+xpdb <- xpose::xpose_data(file=system.file("testdata", "warfarin-pkpd.lst", package = "vaplot"))
+
+test_that("reading derivative results works",{
+  res <- read_nm_derivative_results(system.file("testdata", "warfarin-pkpd.lst", package = "vaplot"))
+  expect_named(res, c("thetavec", "iivmat", "ruvmat", "derivdata"), ignore.order = TRUE)
+})
+
+test_that("fetching table data works", {
+  tab <- get_table_data(xpdb)
+  expect_is(tab, "data.frame")
+})
+
 
 test_that("fetching theta estimates works", {
   expected <- c(THETA1 = 0.137876, THETA2 = 8.13688, THETA3 = 0.706843,

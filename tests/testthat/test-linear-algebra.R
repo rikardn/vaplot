@@ -6,7 +6,7 @@ test_that("Schur complement calculation works", {
 test_that("variance for linearized f is calculated correctly", {
   df <- c(1,1)
   omega <- matrix(c(2,1,1,2),2,2)
-  expect_equal(lvar_f(df, omega), matrix(2+2+2*1,1,1))
+  expect_equal(var_lf(df, omega), matrix(2+2+2*1,1,1))
 })
 
 
