@@ -21,4 +21,6 @@ RoxygenNote: 6.1.1
 Imports: 
     magrittr,
     dplyr,
-    tidyselect
+    tidyselect,
+    rlang,
+    tidyr
