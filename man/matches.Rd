@@ -7,6 +7,6 @@
 read_nm_derivative_results("run.lst", eta_columns = matches("^ETA"))
 }
 \description{
-See \code{dplyr::\link[dplyr:matches]{matches}} for details.
+See \code{tidyselect::\link[tidyselect:matches]{matches}} for details.
 }
 \keyword{internal}

@@ -20,4 +20,5 @@ BugReports: https://github.com/sebastianueckert/vaplot/issues
 RoxygenNote: 6.1.1
 Imports: 
     magrittr,
-    dplyr
+    dplyr,
+    tidyselect

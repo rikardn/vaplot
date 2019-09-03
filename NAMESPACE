@@ -2,5 +2,5 @@
 
 export("%>%")
 export(matches)
-importFrom(dplyr,matches)
 importFrom(magrittr,"%>%")
+importFrom(tidyselect,matches)

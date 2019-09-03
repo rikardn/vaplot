@@ -23,12 +23,12 @@ NULL
 
 #' matches function
 #'
-#' See \code{dplyr::\link[dplyr:matches]{matches}} for details.
+#' See \code{tidyselect::\link[tidyselect:matches]{matches}} for details.
 #'
 #' @name matches
 #' @rdname matches
 #' @keywords internal
 #' @export
-#' @importFrom dplyr matches
+#' @importFrom tidyselect matches
 #' @usage read_nm_derivative_results("run.lst", eta_columns = matches("^ETA"))
 NULL
