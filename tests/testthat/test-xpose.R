@@ -3,7 +3,7 @@ skip_if_not_installed("xpose")
 xpdb <- xpose::xpose_data(file=system.file("testdata", "warfarin-pkpd.lst", package = "vaplot"))
 
 test_that("reading derivative results works",{
-  res <- read_nm_derivative_results(system.file("testdata", "warfarin-pkpd.lst", package = "vaplot"))
+  res <- read_nm_derivative_results(system.file("testdata", "derivatives_run4.lst", package = "vaplot"))
   expect_named(res, c("thetavec", "iivmat", "ruvmat", "derivdata"), ignore.order = TRUE)
 })
 
