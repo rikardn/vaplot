@@ -24,13 +24,13 @@ read_nm_derivative_results <- function(lst_file, problem = NULL, column_specs = 
 
   nmout <- list()
   nmout$thetavec <- get_theta_vector(xpdb, problem = problem)
-  nmout$iivmat <- get_omega_matrix(xpdb, problem = problem)
-  nmout$ruvmat <- get_sigma_matrix(xpdb, problem = problem)
+  nmout$omega <- get_omega_matrix(xpdb, problem = problem)
+  nmout$sigma <- get_sigma_matrix(xpdb, problem = problem)
   nmout$derivdata <- res
-  iiv_vars <- paste0("ETA", seq_len(NCOL(nmout$iivmat)))
-  ruv_vars <- paste0("EPS", seq_len(NCOL(nmout$ruvmat)))
-  rownames(nmout$iivmat) <- colnames(nmout$iivmat) <- iiv_vars
-  rownames(nmout$ruvmat) <- colnames(nmout$ruvmat) <- ruv_vars
+  iiv_vars <- paste0("ETA", seq_len(NCOL(nmout$omega)))
+  ruv_vars <- paste0("EPS", seq_len(NCOL(nmout$sigma)))
+  rownames(nmout$omega) <- colnames(nmout$omega) <- iiv_vars
+  rownames(nmout$sigma) <- colnames(nmout$sigma) <- ruv_vars
 
 
   return(nmout)
