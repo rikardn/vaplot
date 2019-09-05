@@ -29,3 +29,9 @@ test_that("selecting rows in a vector works", {
   vec <- c(a = 1, b = 2, c = 3)
   expect_equal(sr(vec, "b"), vec[2])
 })
+
+test_that("setting row and colnames for matricies works",{
+  m <- diag(1, 2, 2)
+  m <- set_rcnames(m, c("eta1", "eta2"))
+  expect_equal(m, structure(c(1, 0, 0, 1), .Dim = c(2L, 2L), .Dimnames = list(c("eta1",  "eta2"), c("eta1", "eta2"))))
+})

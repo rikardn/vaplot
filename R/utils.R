@@ -42,3 +42,8 @@ dsrc <- function(x, drop_rows, select_cols){
   }
   stop("Only square matricies supported")
 }
+
+set_rcnames <- function(m, names) {
+  rownames(m) <- colnames(m) <- names
+  return(m)
+}
