@@ -3,6 +3,12 @@ test_that("Schur complement calculation works", {
   expect_equal(schur_complement(m, 2), m[-2,-2])
 })
 
+test_that("Schur complement calculation for named matricies works", {
+  m <- set_rcnames(diag(1:10), paste0("eta", 1:10))
+  expect_equal(schur_complement_named(m, "eta2"), m[-2,-2])
+})
+
+
 test_that("variance for linearized f is calculated correctly", {
   df <- c(1,1)
   omega <- matrix(c(2,1,1,2),2,2)
