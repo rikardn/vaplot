@@ -24,4 +24,5 @@ Imports:
     tidyselect,
     rlang,
     tidyr,
-    purrr
+    purrr,
+    MASS
