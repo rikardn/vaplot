@@ -35,3 +35,7 @@ test_that("setting row and colnames for matricies works",{
   m <- set_rcnames(m, c("eta1", "eta2"))
   expect_equal(m, structure(c(1, 0, 0, 1), .Dim = c(2L, 2L), .Dimnames = list(c("eta1",  "eta2"), c("eta1", "eta2"))))
 })
+
+test_that("extracting indicies through regex works", {
+  expect_equal(extract_int(c("G101", "G021"), "(?<=G)\\d{2}"), c(10,2))
+})

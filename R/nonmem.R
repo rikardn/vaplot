@@ -10,3 +10,11 @@ nm_column_specs <- function(id = ID, time = TIME, eta = matches("^ETA?\\d+$"),
     deps_deta = rlang::enquo(deps_deta)
   )
 }
+
+nm_column_mappers <- function(deta_mapper = function(x) extract_int(x, "(?<=G)\\d{2}"),
+                              deps_mapper = function(x) extract_int(x, "(?<=H)\\d{2}")){
+  list(
+    deta_mapper = deta_mapper,
+    deps_mapper = deps_mapper
+  )
+}

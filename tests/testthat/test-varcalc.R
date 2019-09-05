@@ -38,3 +38,8 @@ test_that("calculation of variability from var conditional on var works for lin 
   expect_equal(var_iiv_from_cond_lf(deta, omega, vars = c("eta1"), cond_on = c("eta2")), 1)
   expect_equal(var_iiv_from_cond_lf(deta, omega2, vars = "eta1", cond_on = "eta2"), 0.875)
 })
+
+test_that("conditioning arguments are generated correctly", {
+  expect_equal(gen_cond_args(paste0("eta", 1:2)),
+               list(list(vars = "eta1", cond_on = NULL), list(vars = "eta2", cond_on = "eta1")))
+})

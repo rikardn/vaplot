@@ -47,3 +47,10 @@ set_rcnames <- function(m, names) {
   rownames(m) <- colnames(m) <- names
   return(m)
 }
+
+# extracts patterns using regex and converts to integers
+extract_int <- function(x, regex) {
+  regexpr(regex, x, perl = T) %>%
+    regmatches(x, m = .) %>%
+    as.integer()
+}
