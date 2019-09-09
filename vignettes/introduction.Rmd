@@ -23,11 +23,12 @@ library(vaplot)
 ```{r workfolow, eval=FALSE}
 
 # read NM results & prepare data structure
-res <- read_nm_results(lst_file = "run1.lst")
-# calculate variability attribution
-va_df <- calc_va(res, conditioning_order = paste0("ETA", 1:6))
-# generate va plot
+res <- prepare_va_nm(lst_file = "run1.lst")
 
+# calculate variability attribution
+va_df <- compute_va(res, conditioning_order = paste0("ETA", 1:6))
+
+# generate va plot
 plot_va(va_df)
 
 ```
