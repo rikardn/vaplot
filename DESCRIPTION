@@ -14,7 +14,9 @@ LazyData: true
 Suggests: 
     testthat (>= 2.1.0),
     covr,
-    xpose
+    xpose,
+    knitr,
+    rmarkdown
 URL: https://github.com/sebastianueckert/vaplot
 BugReports: https://github.com/sebastianueckert/vaplot/issues
 RoxygenNote: 6.1.1
@@ -26,3 +28,4 @@ Imports:
     tidyr,
     purrr,
     MASS
+VignetteBuilder: knitr
