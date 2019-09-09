@@ -54,3 +54,12 @@ extract_int <- function(x, regex) {
     regmatches(x, m = .) %>%
     as.integer()
 }
+
+ui_error <- function(msg, suggestions = NULL){
+  if(!is.null(suggestions)){
+    suggestion_text <- paste0("\t- ", suggestions) %>%
+      paste(collapse = "\n")
+    msg <- paste(msg, suggestion_text, sep = "\n")
+  }
+  rlang::abort(msg)
+}
