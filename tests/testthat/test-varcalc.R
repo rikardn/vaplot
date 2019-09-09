@@ -4,7 +4,7 @@ test_that("calculation of the RUV variability works for a linearized model", {
   omega <- diag(1, 1)
   depsdeta <- matrix(0, 4, 2)
 
-  expect_equal(var_ruv_lf(deps, depsdeta, omega, sigma), diag(diag(deps %*% sigma %*% t(deps)), 4, 4)) # assuming no interaction
+  expect_equal(var_ruv_lf(deps, depsdeta, omega, sigma), diag(deps %*% sigma %*% t(deps))) # assuming no interaction
 
 })
 
