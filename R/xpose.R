@@ -1,17 +1,42 @@
 read_nm_derivative_results <- function(lst_file, problem = NULL,
                                        column_specs = nm_column_specs(),
                                        column_mappers = nm_column_mappers()){
+
   if(!requireNamespace("xpose", quietly = TRUE)) stop("The xpose package needs to be installed to create VA plots for NONMEM.")
-  xpdb <- xpose::xpose_data(file = lst_file, simtab = FALSE, extra_files = c('.ext'))
+  xpdb <- xpose::xpose_data(file = lst_file, simtab = FALSE, extra_files = c('.ext'), quiet = TRUE)
 
   # read estimates
   theta <- get_theta_vector(xpdb, problem = problem)
   omega <- get_omega_matrix(xpdb, problem = problem)
   sigma <- get_sigma_matrix(xpdb, problem = problem)
-  iiv_vars <- paste0("ETA", seq_len(NCOL(omega)))
-  ruv_vars <- paste0("EPS", seq_len(NCOL(sigma)))
+  neta <- NCOL(omega)
+  neps <- NCOL(sigma)
+  iiv_vars <- paste0("ETA", seq_len(neta))
+  ruv_vars <- paste0("EPS", seq_len(neps))
 
   tab <- get_table_data(xpdb,  problem = problem)
+  column_names <- colnames(tab)
+  # try column selection in safe manner
+  selection_results <- purrr::map(column_specs, purrr::safely(~tidyselect::vars_select(colnames(tab), !!.x)))
+  # collect selection errors
+  selection_errors <- selection_results %>%
+    purrr::map("error") %>%
+    purrr::compact()
+
+  if(length(selection_errors) != 0) {
+    failed_columns <- names(selection_errors) %>% paste(collapse = ",")
+    ui_error(paste("Could not find the required column(s):", failed_columns),
+             suggestions = c("Check the supplied column_specs argument",
+                             "In NONMEM, check the $TABLE statement for missing columns",
+                             "Verify the generated table file"))
+  }
+
+
+  # selection results
+  column_groups <- selection_results %>%
+    purrr::map("result")
+
+  # check whether all required variables are present
   if(length(tidyselect::vars_select(colnames(tab), !!column_specs$deta))==0) stop("No columns with derivative data found.")
 
   column_groups <- purrr::map(column_specs, ~tidyselect::vars_select(colnames(tab), !!.x))
