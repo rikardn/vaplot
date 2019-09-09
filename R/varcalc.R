@@ -1,12 +1,31 @@
-var_calc_lf <- function(linobj){
+var_calc_lf <- function(linobj, conditioning_order){
+  cond_args_list <- gen_cond_args(conditioning_order)
+
+  call_var_calc <- function(deta, omega, cond_args) purrr::exec(var_iiv_from_cond_lf,
+                                                                deta = deta,
+                                                                omega = omega,
+                                                                !!!cond_args)
   purrr::modify(linobj$derivdata,
-                ~ purrr::update_list(., ruv = var_ruv_lf(.x$deps, .x$deps_deta, linobj$omega, linobj$sigma)))
+                ~ purrr::update_list(.,
+                                     iiv = purrr::map(.x = cond_args_list,
+                                                       .f = call_var_calc,
+                                                       omega = linobj$omega,
+                                                       deta = .x$deta),
+                                     ruv = var_ruv_lf(.x$deps, .x$deps_deta, linobj$omega, linobj$sigma)))
+
+
 }
+
+gen_cond_args <- function(conditioning_order){
+   purrr::accumulate(conditioning_order, ~list(vars = .y, cond_on = unlist(.x, use.names = F)), .init = list()) %>%
+    .[-1]
+}
+
 
 # calculates the variability from the RUV model for linearized model
 var_ruv_lf <- function(deps, deps_deta, omega, sigma){
-  interaction_terms <- diag(diag(deps_deta %*% kronecker(omega, sigma) %*% t(deps_deta)), nrow = NROW(deps))
-  diag(diag(deps %*% sigma %*% t(deps)),  nrow = NROW(deps)) + interaction_terms
+  interaction_terms <- diag(deps_deta %*% kronecker(omega, sigma) %*% t(deps_deta))
+  diag(deps %*% sigma %*% t(deps))+ interaction_terms
 }
 
 #
