@@ -1,18 +1,47 @@
-var_calc_lf <- function(linobj, conditioning_order){
-  cond_args_list <- gen_cond_args(conditioning_order)
+var_calc_lf <- function(linobj, conditioning_order, idv, facets){
 
+  idv_var <- try(tidyselect::vars_select(linobj$colnames, idv), silent = TRUE)
+
+  if(is_error(idv_var)) {
+    ui_error("Could not select idv column",
+             suggestions = c(paste0("Ensure the idv expression is correct"),
+                             "In NONMEM, check the $TABLE statement for missing columns",
+                             "Verify the generated table file"))
+  }
+  if(length(idv_var)>1) {
+    ui_error(paste0("idv can only be one column (now it was ", length(idv_var), ")"),
+             suggestions = c(paste0("Ensure the idv expression is correct")))
+  }
+
+  if(!is.null(facets)){
+    facet_vars <- try(tidyselect::vars_select(linobj$colnames, facets), silent = TRUE)
+    if(is_error(facet_vars)) {
+      ui_error("Could not select facet column(s)",
+               suggestions = c(paste0("Ensure the facet expression is correct"),
+                               "In NONMEM, check the $TABLE statement for missing columns",
+                               "Verify the generated table file"))
+    }
+  }else{
+    facet_vars <- NULL
+  }
+
+
+  cond_args_list <- gen_cond_args(conditioning_order)
   call_var_calc <- function(deta, omega, cond_args) purrr::exec(var_iiv_from_cond_lf,
                                                                 deta = deta,
                                                                 omega = omega,
                                                                 !!!cond_args)
-  purrr::modify(linobj$derivdata,
-                ~ purrr::update_list(.,
-                                     iiv = purrr::map(.x = cond_args_list,
-                                                       .f = call_var_calc,
-                                                       omega = linobj$omega,
-                                                       deta = .x$deta),
-                                     ruv = var_ruv_lf(.x$deps, .x$deps_deta, linobj$omega, linobj$sigma)))
-
+  purrr::map_df(linobj$derivdata,
+                ~purrr::map(.x = cond_args_list,
+                            .f = call_var_calc,
+                            omega = linobj$omega,
+                            deta = .x$deta) %>%
+                  purrr::update_list(RUV = var_ruv_lf(.x$deps, .x$deps_deta, linobj$omega, linobj$sigma)) %>%
+                  tibble::as.tibble() %>%
+                  dplyr::bind_cols(dplyr::select(.x$other, idv_var, facet_vars))) %>%
+    dplyr::group_by_at(c(facet_vars, idv_var)) %>%
+    dplyr::summarise_all(mean) %>%
+    tidyr::gather("source", "variability", -c(facet_vars, idv_var))
 
 }
 
