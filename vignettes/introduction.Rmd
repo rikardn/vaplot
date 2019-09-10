@@ -20,7 +20,7 @@ The `vaplot` package creates variability attribution plots for non-linear mixed 
 library(vaplot)
 ```
 
-```{r workfolow}
+```{r workfolow, fig.width=6, fig.align='center', fig.height=4}
 lst_file <- system.file("testdata", "derivatives_run4.lst", package = "vaplot")
 
 # read NM results & prepare data structure
