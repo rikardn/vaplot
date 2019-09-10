@@ -32,14 +32,16 @@ read_nm_derivative_results <- function(lst_file, problem = NULL,
   }
 
 
+
   # selection results
   column_groups <- selection_results %>%
     purrr::map("result")
 
-  # check whether all required variables are present
-  if(length(tidyselect::vars_select(colnames(tab), !!column_specs$deta))==0) stop("No columns with derivative data found.")
+  # all remaining columns
+  other_columns <- column_names[!column_names %in% unlist(column_groups)]
+  column_groups[["other"]] <- other_columns
 
-  column_groups <- purrr::map(column_specs, ~tidyselect::vars_select(colnames(tab), !!.x))
+  #column_groups <- purrr::map(column_specs, ~tidyselect::vars_select(colnames(tab), !!.x))
   id_column <- tab[[column_groups[["id"]]]]
 
   select_rows <- function(cols, group, df) {
@@ -59,8 +61,10 @@ read_nm_derivative_results <- function(lst_file, problem = NULL,
       eps_indicies <- column_mappers$deps_mapper(colnames(m))
       colnames(m) <- paste0("EPS",eps_indicies)
       return(m)
-    }else{
+    }else if(group == "deps_deta"){
       data.matrix(df[,cols, drop = FALSE])
+    }else{
+      df[,cols,drop=FALSE]
     }
   }
 
@@ -69,6 +73,7 @@ read_nm_derivative_results <- function(lst_file, problem = NULL,
     purrr::map(function(df) purrr::imap(column_groups, ~select_rows(.x, .y, df)))
 
   nmout <- list()
+  nmout$colnames <- other_columns
   nmout$thetavec <- theta
   nmout$omega <- omega
   nmout$sigma <- sigma
