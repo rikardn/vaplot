@@ -1,4 +1,4 @@
-nm_column_specs <- function(id = ID, eta = matches("^ETA?\\d+$"),
+nm_column_specs <- function(id = "ID", eta = matches("^ETA?\\d+$"),
                             deta = matches("^G\\d+$"), deps = matches("^H\\d+$"),
                             deps_deta = matches("^D_EPSETA\\d+_\\d+$")){
   list(
