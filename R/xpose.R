@@ -4,13 +4,23 @@
 #' @param problem Number of the $PROBLEM to use
 #' @param column_specs Column specifications as produced by nm_column_specs()
 #' @param column_mappers Derivative to variable mapping specification as produced by nm_column_mappers()
+#' @param ignore_expr Expression defining which rows from the table to ignore (evaluated in the context of
+#' the table). The default is to ignore EVID!=0.
 #'
 #' @export
 prepare_va_nm <- function(lst_file, problem = NULL,
-                                       column_specs = nm_column_specs(),
-                                       column_mappers = nm_column_mappers()){
+                          column_specs = nm_column_specs(),
+                          column_mappers = nm_column_mappers(), ignore_expr){
 
-  if(!requireNamespace("xpose", quietly = TRUE)) stop("The xpose package needs to be installed to create VA plots for NONMEM.")
+  ignore_expr <- rlang::enquo(ignore_expr)
+  # ignore nothing if ignore_expr is set to NULL
+  if(rlang::quo_is_null(ignore_expr)) ignore_expr <- rlang::quo(FALSE)
+
+  if(!requireNamespace("xpose", quietly = TRUE))
+    ui_error("The 'xpose' package could not be loaded but is required to read NONMEM results",
+             suggestions = c("Install 'xpose' using: install.packages('xpose')"))
+
+
   xpdb <- xpose::xpose_data(file = lst_file, simtab = FALSE, extra_files = c('.ext'), quiet = TRUE)
 
   # read estimates
@@ -24,6 +34,11 @@ prepare_va_nm <- function(lst_file, problem = NULL,
 
   tab <- get_table_data(xpdb,  problem = problem)
   column_names <- colnames(tab)
+
+  # default ignore when argument is not provided
+  if(rlang::quo_is_missing(ignore_expr) && "EVID" %in% column_names) ignore_expr <- rlang::quo(EVID!=0)
+  tab <- dplyr::filter(tab, !(!!ignore_expr))
+
   # try column selection in safe manner
   selection_results <- purrr::map(column_specs, purrr::safely(~tidyselect::vars_select(colnames(tab), !!.x)))
   # collect selection errors
