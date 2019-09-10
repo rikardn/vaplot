@@ -12,7 +12,7 @@ plot_va <- function(va_results){
 
   plot_tab <- tidyr::gather(va_table, "source", "value", variability_vars)
   p <- ggplot2::ggplot(plot_tab, ggplot2::aes_string(idv_var, "value", fill = "source"))+
-    ggplot2::geom_area(position = position_fill(reverse = T))+
+    ggplot2::geom_area(position = ggplot2::position_fill(reverse = T))+
    # scale_fill_manual("Source", values = fct_colors)+
     ggplot2::scale_y_continuous("Percent of total variability", labels = scales::percent)+
     ggplot2::theme(legend.position = "bottom")
