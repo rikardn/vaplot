@@ -31,7 +31,7 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
                                                                 deta = deta,
                                                                 omega = omega,
                                                                 !!!cond_args)
-  purrr::map_df(linobj$derivdata,
+  va_table <- purrr::map_df(linobj$derivdata,
                 ~purrr::map(.x = cond_args_list,
                             .f = call_var_calc,
                             omega = linobj$omega,
@@ -40,9 +40,19 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
                   tibble::as.tibble() %>%
                   dplyr::bind_cols(dplyr::select(.x$other, idv_var, facet_vars))) %>%
     dplyr::group_by_at(c(facet_vars, idv_var)) %>%
-    dplyr::summarise_all(mean) %>%
-    tidyr::gather("source", "variability", -c(facet_vars, idv_var))
+    dplyr::summarise_all(mean)
 
+  column_names <- colnames(va_table)
+  column_types <- rep("", length(column_names))
+  names(column_types) <- column_names
+  column_types[column_names==idv_var] <- "idv"
+  column_types[column_names %in% facet_vars] <- "facet_var"
+  column_types[column_types==""] <- "variability"
+  va_res <- list(
+    table = va_table,
+    column_types = column_types
+  )
+  return(va_res)
 }
 
 gen_cond_args <- function(conditioning_order){

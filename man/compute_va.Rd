@@ -5,7 +5,7 @@
 \title{Compute variability attribution}
 \usage{
 compute_va(va_input, conditioning = default_conditioning, idv = TIME,
-  dvid = NULL)
+  facets = NULL)
 }
 \arguments{
 \item{va_input}{An input data structure as produced by the prepare_va_* functions}
