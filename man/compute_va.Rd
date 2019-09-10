@@ -4,7 +4,7 @@
 \alias{compute_va}
 \title{Compute variability attribution}
 \usage{
-compute_va(va_input, conditioning = default_conditioning, idv = TIME,
+compute_va(va_input, conditioning = default_conditioning, idv = "TIME",
   facets = NULL)
 }
 \arguments{
@@ -14,7 +14,7 @@ compute_va(va_input, conditioning = default_conditioning, idv = TIME,
 
 \item{idv}{The independent variable column}
 
-\item{dvid}{The dependent variable id column}
+\item{facets}{Columns to be used for facetting}
 }
 \value{
 A data frame

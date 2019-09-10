@@ -7,11 +7,11 @@
 #' @param va_input An input data structure as produced by the prepare_va_* functions
 #' @param conditioning A function or list determining in which order the computation should occur
 #' @param idv The independent variable column
-#' @param dvid The dependent variable id column
+#' @param facets Columns to be used for facetting
 #'
 #' @return A data frame
 #' @export
-compute_va <- function(va_input, conditioning = default_conditioning, idv = TIME, facets = NULL){
+compute_va <- function(va_input, conditioning = default_conditioning, idv = "TIME", facets = NULL){
   # determine conditioning order
   idv <- rlang::enquo(idv)
   facets <- rlang::enquo(facets)
