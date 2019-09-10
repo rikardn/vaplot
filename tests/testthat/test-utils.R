@@ -39,3 +39,8 @@ test_that("setting row and colnames for matricies works",{
 test_that("extracting indicies through regex works", {
   expect_equal(extract_int(c("G101", "G021"), "(?<=G)\\d{2}"), c(10,2))
 })
+
+test_that("try error are recognized", {
+  expect_true(is_error(try(log("a"), silent = TRUE)))
+  expect_false(is_error(try(log(1), silent = TRUE)))
+})

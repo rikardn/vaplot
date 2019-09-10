@@ -55,6 +55,10 @@ extract_int <- function(x, regex) {
     as.integer()
 }
 
+is_error <- function(x) {
+  inherits(x,"try-error")
+}
+
 ui_error <- function(msg, suggestions = NULL){
   if(!is.null(suggestions)){
     suggestion_text <- paste0("\t- ", suggestions) %>%
