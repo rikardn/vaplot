@@ -14,11 +14,15 @@ plot_va <- function(va_results){
   p <- ggplot2::ggplot(plot_tab, ggplot2::aes_string(idv_var, "value", fill = "source"))+
     ggplot2::geom_area(position = ggplot2::position_fill(reverse = T))+
    # scale_fill_manual("Source", values = fct_colors)+
-    ggplot2::scale_y_continuous("Percent of total variability", labels = scales::percent)+
+    ggplot2::scale_y_continuous("Percent of total variability", labels = percent_labels)+
     ggplot2::theme(legend.position = "bottom")
 
   if(!rlang::is_empty(facet_vars)){
     p <- p + ggplot2::facet_wrap(facet_vars, labeller = ggplot2::label_both)
   }
   return(p)
+}
+
+percent_labels <- function(x){
+  paste0(format(x*100, digits = 0), "%")
 }
