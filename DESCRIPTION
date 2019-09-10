@@ -27,5 +27,6 @@ Imports:
     rlang,
     tidyr,
     purrr,
-    MASS
+    MASS,
+    ggplot2
 VignetteBuilder: knitr
