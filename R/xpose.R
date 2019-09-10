@@ -1,4 +1,12 @@
-read_nm_derivative_results <- function(lst_file, problem = NULL,
+#' Read results from a NM run
+#'
+#' @param lst_file Path to a NONMEM results file
+#' @param problem Number of the $PROBLEM to use
+#' @param column_specs Column specifications as produced by nm_column_specs()
+#' @param column_mappers Derivative to variable mapping specification as produced by nm_column_mappers()
+#'
+#' @export
+prepare_va_nm <- function(lst_file, problem = NULL,
                                        column_specs = nm_column_specs(),
                                        column_mappers = nm_column_mappers()){
 
