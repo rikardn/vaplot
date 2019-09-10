@@ -6,7 +6,7 @@
 \usage{
 prepare_va_nm(lst_file, problem = NULL,
   column_specs = nm_column_specs(),
-  column_mappers = nm_column_mappers())
+  column_mappers = nm_column_mappers(), ignore_expr)
 }
 \arguments{
 \item{lst_file}{Path to a NONMEM results file}
@@ -16,6 +16,9 @@ prepare_va_nm(lst_file, problem = NULL,
 \item{column_specs}{Column specifications as produced by nm_column_specs()}
 
 \item{column_mappers}{Derivative to variable mapping specification as produced by nm_column_mappers()}
+
+\item{ignore_expr}{Expression defining which rows from the table to ignore (evaluated in the context of
+the table). The default is to ignore EVID!=0.}
 }
 \description{
 Read results from a NM run
