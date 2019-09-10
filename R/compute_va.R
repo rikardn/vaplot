@@ -13,6 +13,8 @@
 #' @export
 compute_va <- function(va_input, conditioning = default_conditioning, idv = TIME, facets = NULL){
   # determine conditioning order
+  idv <- rlang::enquo(idv)
+  facets <- rlang::enquo(facets)
   if(is.function(conditioning)) cond_order <- conditioning(va_input)
   var_calc_lf(va_input, cond_order, idv = idv, facets = facets)
 }

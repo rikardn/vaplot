@@ -1,6 +1,6 @@
 var_calc_lf <- function(linobj, conditioning_order, idv, facets){
 
-  idv_var <- try(tidyselect::vars_select(linobj$colnames, idv), silent = TRUE)
+  idv_var <- try(tidyselect::vars_select(linobj$colnames, !!idv), silent = TRUE)
 
   if(is_error(idv_var)) {
     ui_error("Could not select idv column",
@@ -13,8 +13,8 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
              suggestions = c(paste0("Ensure the idv expression is correct")))
   }
 
-  if(!is.null(facets)){
-    facet_vars <- try(tidyselect::vars_select(linobj$colnames, facets), silent = TRUE)
+  if(!rlang::quo_is_null(facets)){
+    facet_vars <- try(tidyselect::vars_select(linobj$colnames, !!facets), silent = TRUE)
     if(is_error(facet_vars)) {
       ui_error("Could not select facet column(s)",
                suggestions = c(paste0("Ensure the facet expression is correct"),
