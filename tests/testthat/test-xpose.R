@@ -4,7 +4,7 @@ xpdb <- xpose::xpose_data(file=system.file("testdata", "warfarin-pkpd.lst", pack
 
 test_that("reading derivative results works",{
   res <- prepare_va_nm(system.file("testdata", "derivatives_run4.lst", package = "vaplot"))
-  expect_named(res, c("colnames", "thetavec", "omega", "sigma", "derivdata"), ignore.order = TRUE)
+  expect_is(res, "va_input")
 })
 
 test_that("fetching table data works", {

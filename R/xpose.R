@@ -95,18 +95,19 @@ prepare_va_nm <- function(lst_file, problem = NULL,
   res <- split(tab, id_column) %>%
     purrr::map(function(df) purrr::imap(column_groups, ~select_rows(.x, .y, df)))
 
-  nmout <- list()
-  nmout$colnames <- other_columns
-  nmout$thetavec <- theta
-  nmout$omega <- omega
-  nmout$sigma <- sigma
-  nmout$derivdata <- res
+  rownames(omega) <- colnames(omega) <- iiv_vars
+  rownames(sigma) <- colnames(sigma) <- ruv_vars
 
-  rownames(nmout$omega) <- colnames(nmout$omega) <- iiv_vars
-  rownames(nmout$sigma) <- colnames(nmout$sigma) <- ruv_vars
+  inp <- va_input(
+    column_names = other_columns,
+    theta = theta,
+    omega = omega,
+    sigma = sigma,
+    derivative_data = res,
+    input_file = lst_file
+  )
 
-
-  return(nmout)
+  return(inp)
 }
 
 get_table_data <- function(xpdb, problem = NULL){

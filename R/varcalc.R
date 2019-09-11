@@ -1,6 +1,6 @@
 var_calc_lf <- function(linobj, conditioning_order, idv, facets){
 
-  idv_var <- try(tidyselect::vars_select(linobj$colnames, !!idv), silent = TRUE)
+  idv_var <- try(tidyselect::vars_select(linobj$column_names, !!idv), silent = TRUE)
 
   if(is_error(idv_var)) {
     ui_error("Could not select idv column",
@@ -14,7 +14,7 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
   }
 
   if(!rlang::quo_is_null(facets)){
-    facet_vars <- try(tidyselect::vars_select(linobj$colnames, !!facets), silent = TRUE)
+    facet_vars <- try(tidyselect::vars_select(linobj$column_names, !!facets), silent = TRUE)
     if(is_error(facet_vars)) {
       ui_error("Could not select facet column(s)",
                suggestions = c(paste0("Ensure the facet expression is correct"),
@@ -31,7 +31,7 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
                                                                 deta = deta,
                                                                 omega = omega,
                                                                 !!!cond_args)
-  va_table <- purrr::map_df(linobj$derivdata,
+  va_table <- purrr::map_df(linobj$derivative_data,
                 ~purrr::map(.x = cond_args_list,
                             .f = call_var_calc,
                             omega = linobj$omega,
@@ -67,46 +67,6 @@ var_ruv_lf <- function(deps, deps_deta, omega, sigma){
   diag(deps %*% sigma %*% t(deps))+ interaction_terms
 }
 
-#
-# calc_variable_contribution <- function(linobj, phi = NULL, covariates = NULL, conditioning_order) {
-#
-#   if(is.null(phi)&&!rlang::is_empty(covariates)) stop("list of phi expressions needs to be supplied to handle covariates.")
-#   if(!is.null(phi))  dphi <- calc_phi_derivatives(xpdb, phi, covariates)
-#
-#   omega_cov_matrix <- get_omega_cov_matrix(xpdb, covariates)
-#
-#   conditioning_args <- conditioning_order %>%
-#     purrr::accumulate(~list(vars = .y, cond_on = unlist(.x, use.names = F)), .init = c()) %>%
-#     .[-1] # remove first entry
-#
-#   purrr::modify(linobj$derivdata,
-#                 ~ purrr::update_list(.,
-#
-#   lin_data %>%
-#     xpose::fetch_data(filter = xpose::only_obs(., .problem = 1, quiet = T), .problem = 1, .subprob = 0, quiet = T) %>%
-#     dplyr::select(ID, dplyr::matches("G\\d{3}")) %>%
-#     dplyr::rename_at(dplyr::vars(-ID), dplyr::funs(stringr::str_extract(., "(?<=G)\\d{2}") %>% as.integer() %>% as.character())) %>%  # rename columns to eta index
-#     tidyr::nest(-ID, .key = "df_deta") %>%
-#     dplyr::mutate(
-#       df_deta = purrr::map(df_deta, as.matrix)) %>%
-#     {
-#       if(!is.null(phi)){
-#         dplyr::left_join(., dphi, by = "ID") %>%
-#           mutate(
-#             df_da  = purrr::pmap(list(df_deta, dphi_deta, dphi_da), ~..1 %*% solve(..2) %*% ..3),
-#             df_dvar = purrr::map2(df_deta, df_da, cbind)
-#           )
-#       }else{
-#         mutate(., df_dvar = df_deta)
-#       }
-#     } %>%
-#     dplyr::mutate(
-#       eta_contribution =  purrr::map(df_dvar,
-#                                      ~purrr::invoke_map(variability_from_vars_given_vars, conditioning_args, df_dvar = .x, omega_cov = omega_cov_matrix) %>%
-#                                        purrr::set_names(col_names) %>%
-#                                        dplyr::bind_cols())
-#     )
-# }
 
 var_iiv_from_cond_lf <- function(deta, omega, vars, cond_on = c()){
   if(length(cond_on)==0) return(var_iiv_from_lf(deta, omega, vars))
