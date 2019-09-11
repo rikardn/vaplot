@@ -48,7 +48,7 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
   column_types[column_names==idv_var] <- "idv"
   column_types[column_names %in% facet_vars] <- "facet_var"
   column_types[column_types==""] <- "variability"
-  va_res <- list(
+  va_res <- va_results(
     table = va_table,
     column_types = column_types
   )

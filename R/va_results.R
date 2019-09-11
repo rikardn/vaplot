@@ -1,9 +1,9 @@
-va_results <- function(table, column_names){
+va_results <- function(table, column_types){
   return(
     structure(
       list(
         table = table,
-        column_names = column_names
+        column_types = column_types
       ),
       class = 'va_results'
     ))
