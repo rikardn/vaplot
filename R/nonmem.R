@@ -1,9 +1,8 @@
-nm_column_specs <- function(id = "ID", eta = matches("^ETA?\\d+$"),
+nm_column_specs <- function(id = "ID",
                             deta = matches("^G\\d+$"), deps = matches("^H\\d+$"),
                             deps_deta = matches("^D_EPSETA\\d+_\\d+$")){
   list(
     id = rlang::enquo(id),
-    eta = rlang::enquo(eta),
     deta = rlang::enquo(deta),
     deps = rlang::enquo(deps),
     deps_deta = rlang::enquo(deps_deta)

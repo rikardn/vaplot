@@ -23,7 +23,6 @@ prepare_va_fun <- function(model_fun, theta, omega, sigma, time, z){
                                               eta =eta,
                                               eps = eps_zero,
                                               z = z),
-                                  eta = matrix(eta, nrow = 1, ncol = neta, dimnames = list(NULL, names(eta))),
                                   other = dplyr::tibble(TIME = time)
                                )
                             }

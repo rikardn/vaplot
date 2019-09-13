@@ -71,7 +71,7 @@ prepare_va_nm <- function(lst_file, problem = NULL,
     if(group == "id"){
       df[1, cols, drop = TRUE]
     }else if(group == "eta"){
-      data.matrix(df[1, cols, drop = FALSE]) %>% t()
+      #data.matrix(df[1, cols, drop = FALSE]) %>% t()
     }else if(group == "deta"){
       m <- data.matrix(df[, cols, drop = FALSE])
       # rename columns to match ETAs
