@@ -33,3 +33,33 @@ va_res <- compute_va(va_input, facets = "DVID")
 plot_va(va_res)
 
 ```
+
+## Models in R
+
+In addition to NONMEM, the package also supports NLME models written as a simple R function.
+
+```{r}
+my_model <- function(time, theta, eta, eps, z){
+  v <- theta[1]*exp(eta[1])
+  cl <- theta[2]*exp(eta[2])
+  ka <- theta[3]*exp(eta[3])
+  k <- cl/v
+  conc <- z["dose"]/v*ka/(ka-k)*(exp(-k*time)-exp(-ka*time))
+  y <- conc * (1  + eps[1])
+  return(y)
+}
+
+theta <- c(3, 5, 0.1)
+eta <- c(0,0,0)
+z <- c(dose = 10)
+time <- seq(0, 20, length.out = 40)
+plot(time, my_model(time, theta, eta, 0, z))
+
+omega <- diag(c(0.2,0.1,0.5), 3, 3)
+sigma <- matrix(.05, 1, 1)
+
+input <- prepare_va_fun(my_model, theta, omega, sigma, time, z)
+va_res <- compute_va(input)
+plot_va(va_res)
+```
+
