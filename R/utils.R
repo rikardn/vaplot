@@ -67,3 +67,7 @@ ui_error <- function(msg, suggestions = NULL){
   }
   rlang::abort(msg)
 }
+
+ui_inform <- function(msg){
+  rlang::inform(msg)
+}
