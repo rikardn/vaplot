@@ -358,6 +358,12 @@
       "Source": "CRAN",
       "Hash": "c2b66177f06ba458e6b5b3658db487ff"
     },
+    "numDeriv": {
+      "Package": "numDeriv",
+      "Version": "2016.8-1.1",
+      "Source": "CRAN",
+      "Hash": "1407680926c573655005ca20956902b3"
+    },
     "openssl": {
       "Package": "openssl",
       "Version": "1.4.1",
@@ -588,7 +594,7 @@
       "Package": "vaplot",
       "Version": "0.0.0.9000",
       "Source": "unknown",
-      "Hash": "a61dd5f618ef49452541f6a2eda36787"
+      "Hash": "a1568a45187d871284a073d196949ba7"
     },
     "vctrs": {
       "Package": "vctrs",
