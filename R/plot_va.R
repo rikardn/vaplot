@@ -12,7 +12,7 @@ plot_va <- function(va_results, colors = NULL){
 
   plot_tab <- tidyr::gather(va_table, "source", "value", variability_vars)
   if(is.null(colors)){
-    ui_inform("Using default coloring as no colors were provided for the plot.")
+    ui_inform("No colors were provided, the plot will use default colors instead.")
     colors <- color_like_hadley(va_results)
   }
   p <- ggplot2::ggplot(plot_tab, ggplot2::aes_string(idv_var, "value", fill = "source"))+
