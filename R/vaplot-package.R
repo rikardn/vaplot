@@ -31,3 +31,14 @@ NULL
 #' @export
 #' @importFrom tidyselect matches
 NULL
+
+#' .data pronoun
+#'
+#' See \code{rlang::\link[rlang:.data]{.data}} for details.
+#'
+#' @name .data
+#' @rdname .data
+#' @keywords internal
+#' @export
+#' @importFrom rlang .data
+NULL
