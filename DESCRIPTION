@@ -29,5 +29,6 @@ Imports:
     tidyr,
     purrr,
     MASS,
-    ggplot2
+    ggplot2,
+    glue
 VignetteBuilder: knitr
