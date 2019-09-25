@@ -10,7 +10,8 @@ plot_va <- function(va_results, colors = NULL){
   facet_vars <- names(which(va_results$column_types == "facet_var"))
   variability_vars <- names(which(va_results$column_types == "variability"))
 
-  plot_tab <- tidyr::gather(va_table, "source", "value", variability_vars)
+  plot_tab <- tidyr::gather(va_table, "source", "value", variability_vars) %>%
+    dplyr::mutate(source = factor(source, levels = variability_vars))
   if(is.null(colors)){
     ui_inform("No colors were provided, the plot will use default colors instead.")
     colors <- color_like_hadley(va_results)
