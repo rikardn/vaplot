@@ -4,10 +4,21 @@
 \alias{prepare_va_frem}
 \title{Read results from a PsN FREM run}
 \usage{
-prepare_va_frem(directory, frem_specs = default_frem_specs())
+prepare_va_frem(frem_path, frem_specs = default_frem_specs(),
+  column_specs = nm_column_specs(),
+  column_mappers = nm_column_mappers())
 }
 \arguments{
-\item{frem_specs}{}
+\item{frem_path}{Path to the FREM directory}
+
+\item{frem_specs}{FREM specific settings}
+
+\item{column_specs}{Column specifications as produced by nm_column_specs()}
+
+\item{column_mappers}{Derivative to variable mapping specification as produced by nm_column_mappers()}
+}
+\value{
+A va_input object
 }
 \description{
 Read results from a PsN FREM run

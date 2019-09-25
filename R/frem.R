@@ -1,26 +1,28 @@
 #' Read results from a PsN FREM run
 #'
-#' @param directory
-#' @param frem_specs
+#' @param frem_path Path to the FREM directory
+#' @param frem_specs FREM specific settings
+#' @param column_specs Column specifications as produced by nm_column_specs()
+#' @param column_mappers Derivative to variable mapping specification as produced by nm_column_mappers()
 #'
-#' @return
+#' @return A va_input object
 #' @export
-prepare_va_frem <- function(directory,
+prepare_va_frem <- function(frem_path,
                             frem_specs = default_frem_specs(),
                             column_specs = nm_column_specs(),
                             column_mappers = nm_column_mappers()){
 
 
   # get derivatives data & merge with frem data
-  derivatives_tab <- read_nm_table(file.path(directory, frem_specs$derivatives_table))
-  frem_data <- read_frem_data(file.path(directory, frem_specs$frem_dataset))
+  derivatives_tab <- read_nm_table(file.path(frem_path, frem_specs$derivatives_table))
+  frem_data <- read_frem_data(file.path(frem_path, frem_specs$frem_dataset))
   frem_data <- dplyr::select(frem_data, -.data$ID) %>%
     dplyr::select(-!!column_specs$deps_deta, -!!column_specs$deps, -!!column_specs$deta)
 
   all_data <- dplyr::bind_cols(derivatives_tab, frem_data)
 
   # read & prepare estimates
-  estimates <- get_final_frem_estimates(file.path(directory, frem_specs$ext_file))
+  estimates <- get_final_frem_estimates(file.path(frem_path, frem_specs$ext_file))
 
   neta <- NCOL(estimates$omega)
   neps <- NCOL(estimates$sigma)
@@ -35,7 +37,7 @@ prepare_va_frem <- function(directory,
 
 
 
-  frem_covariates <- get_frem_covariates(directory, frem_specs)
+  frem_covariates <- get_frem_covariates(frem_path, frem_specs)
   nfremeta <- length(frem_covariates)
 
   variable_labels <- c(glue::glue("ETA({i})", i = seq_len(neta-nfremeta)), frem_covariates)
@@ -53,7 +55,7 @@ prepare_va_frem <- function(directory,
     omega = omega,
     sigma = sigma,
     derivative_data = tab_split,
-    input_file = directory,
+    input_file = frem_path,
     variable_labels = variable_labels,
     variable_types = variable_types,
     variable_names = eta_names
