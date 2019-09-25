@@ -22,12 +22,22 @@ compute_va <- function(va_input, conditioning = default_conditioning, idv = "TIM
 
 #' Determine conditioning order
 #'
+#' These functions automatically generate a conditioning order based on the available information.
+#'
 #' @param va_input An input data structure as produced by the prepare_va_* functions
 #'
 #' @return A list of variable names
 #' @export
 default_conditioning <- function(va_input){
-  order <-colnames(va_input$omega)
-  names(order) <- order
+  # have covariates first
+  if(any(va_input$variable_types=="covariate")){
+    cov_vars <- which(va_input$variable_types=="covariate")
+    non_cov_vars <- which(va_input$variable_types!="covariate")
+    order <- va_input$variable_names[c(cov_vars, non_cov_vars)]
+    names(order) <- va_input$variable_labels[c(cov_vars, non_cov_vars)]
+  }else{
+    order <- va_input$variable_names
+    names(order) <- va_input$variable_labels
+  }
   return(order)
 }

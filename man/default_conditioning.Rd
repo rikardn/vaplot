@@ -13,5 +13,5 @@ default_conditioning(va_input)
 A list of variable names
 }
 \description{
-Determine conditioning order
+These functions automatically generate a conditioning order based on the available information.
 }
