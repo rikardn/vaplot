@@ -6,7 +6,7 @@ va_input <- function(column_names, theta, omega,
   if(missing(variable_labels)) {
     variable_labels <- glue::glue("ETA({i})", i = seq_len(NROW(omega)))
   }
-  if(missing(variable_names)) variable_names <- paste0("ETA", NROW(omega))
+  if(missing(variable_names)) variable_names <- paste0("ETA", seq_len(NROW(omega)))
   return(
     structure(
       list(
