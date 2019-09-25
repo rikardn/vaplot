@@ -27,7 +27,7 @@ prepare_va_frem <- function(directory,
   eta_names <- glue::glue("ETA{i}", i = seq_len(neta))
   eps_names <- glue::glue("EPS{i}", i = seq_len(neps))
   tab_split <- split_table_data(all_data,
-                                ignore_expr = rlang::quo(FALSE),
+                                ignore_expr = rlang::quo(.data$FREMTYPE>0),
                                 column_specs = column_specs,
                                 column_mappers = column_mappers,
                                 eta_names = eta_names,
