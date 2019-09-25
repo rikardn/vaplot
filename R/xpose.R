@@ -23,24 +23,27 @@ prepare_va_nm <- function(lst_file, problem = NULL,
 
   xpdb <- xpose::xpose_data(file = lst_file, simtab = FALSE, extra_files = c('.ext'), quiet = TRUE)
 
-  # prepare table data
-  tab <- get_table_data(xpdb,  problem = problem)
-  tab_split <- split_table_data(tab,
-                          ignore_expr = ignore_expr,
-                          column_specs = column_specs,
-                          column_mappers = column_mappers)
-
   # read & prepare estimates
   estimates <- get_estimates(xpdb, problem)
 
   neta <- NCOL(estimates$omega)
   neps <- NCOL(estimates$sigma)
-  iiv_vars <- paste0("ETA", seq_len(neta))
-  ruv_vars <- paste0("EPS", seq_len(neps))
+  eta_names <- glue::glue("ETA{i}", i = seq_len(neta))
+  eps_names <- glue::glue("EPS{i}", i = seq_len(neps))
+
+  # prepare table data
+  tab <- get_table_data(xpdb,  problem = problem)
+  tab_split <- split_table_data(tab,
+                          ignore_expr = ignore_expr,
+                          column_specs = column_specs,
+                          column_mappers = column_mappers,
+                          eta_names = eta_names,
+                          eps_names = eps_names)
+
   omega <- estimates$omega
   sigma <- estimates$sigma
-  rownames(omega) <- colnames(omega) <- iiv_vars
-  rownames(sigma) <- colnames(sigma) <- ruv_vars
+  rownames(omega) <- colnames(omega) <- eta_names
+  rownames(sigma) <- colnames(sigma) <- eps_names
 
   inp <- va_input(
     column_names = colnames(tab_split[[1]][["other"]]),
@@ -48,13 +51,14 @@ prepare_va_nm <- function(lst_file, problem = NULL,
     omega = omega,
     sigma = sigma,
     derivative_data = tab_split,
-    input_file = lst_file
+    input_file = lst_file,
+    variable_names = eta_names
   )
 
   return(inp)
 }
 
-split_table_data <- function(tab, ignore_expr, column_specs, column_mappers){
+split_table_data <- function(tab, ignore_expr, column_specs, column_mappers, eta_names, eps_names){
   column_names <- colnames(tab)
 
   # default ignore when argument is not provided
@@ -91,11 +95,13 @@ split_table_data <- function(tab, ignore_expr, column_specs, column_mappers){
 
   # split by ID and extract column groups
   res <- split(tab, id_column) %>%
-    purrr::map(function(df) purrr::imap(column_groups, ~select_rows(.x, .y, df, mappers = column_mappers)))
+    purrr::map(function(df) purrr::imap(column_groups,
+                                        ~select_rows(.x, .y, df, mappers = column_mappers,
+                                                     eta_names = eta_names, eps_names = eps_names)))
 
 }
 
-select_rows <- function(cols, group, df, mappers) {
+select_rows <- function(cols, group, df, mappers,  eta_names, eps_names) {
   if(group == "id"){
     df[1, cols, drop = TRUE]
   }else if(group == "eta"){
@@ -104,13 +110,13 @@ select_rows <- function(cols, group, df, mappers) {
     m <- data.matrix(df[, cols, drop = FALSE])
     # rename columns to match ETAs
     eta_indicies <- mappers$deta_mapper(colnames(m))
-    colnames(m) <- paste0("ETA",eta_indicies)
+    colnames(m) <- eta_names
     return(m)
   }else if(group == "deps"){
     m <- data.matrix(df[, cols, drop = FALSE])
     # rename columns to match ETAs
     eps_indicies <- mappers$deps_mapper(colnames(m))
-    colnames(m) <- paste0("EPS",eps_indicies)
+    colnames(m) <- eps_names
     return(m)
   }else if(group == "deps_deta"){
     data.matrix(df[,cols, drop = FALSE])

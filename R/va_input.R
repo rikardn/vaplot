@@ -1,10 +1,12 @@
 va_input <- function(column_names, theta, omega,
                      sigma, derivative_data, input_file,
-                     variable_types, variable_labels){
+                     variable_types, variable_labels,
+                     variable_names){
   if(missing(variable_types)) variable_types <- rep("iiv-re", NROW(omega))
   if(missing(variable_labels)) {
     variable_labels <- glue::glue("ETA({i})", i = seq_len(NROW(omega)))
   }
+  if(missing(variable_names)) variable_names <- paste0("ETA", NROW(omega))
   return(
     structure(
       list(
@@ -15,7 +17,8 @@ va_input <- function(column_names, theta, omega,
         derivative_data = derivative_data,
         input_file = input_file,
         variable_types = variable_types,
-        variable_labels = variable_labels
+        variable_labels = variable_labels,
+        variable_names = variable_names
       ),
       class = 'va_input'
     ))
