@@ -1,3 +1,12 @@
+#' Create a VA plot for an R model
+#'
+#' @param model_fun The function implementing the model
+#' @param theta Vector of theta parameters
+#' @param omega Omega matrix
+#' @param sigma Sigma matrix
+#' @param time Vector of time points
+#' @param z Vector of covariates
+#'
 #'@export
 prepare_va_fun <- function(model_fun, theta, omega, sigma, time, z){
 
