@@ -1,6 +1,7 @@
 #' Plot variability attribution
 #'
 #' @param va_results A va_result as produced by compute_va
+#' @param colors Color specifications
 #'
 #' @export
 plot_va <- function(va_results, colors = NULL){

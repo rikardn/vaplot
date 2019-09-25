@@ -8,6 +8,8 @@ plot_va(va_results, colors = NULL)
 }
 \arguments{
 \item{va_results}{A va_result as produced by compute_va}
+
+\item{colors}{Color specifications}
 }
 \description{
 Plot variability attribution
