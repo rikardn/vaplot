@@ -27,6 +27,10 @@ compute_va <- function(va_input, conditioning = default_conditioning, idv = "TIM
 #' @param va_input An input data structure as produced by the prepare_va_* functions
 #'
 #' @return A list of variable names
+#' @name conditioning
+NULL
+
+#' @describeIn conditioning Conditions first on each of the covariates and then on each of the random effects
 #' @export
 default_conditioning <- function(va_input){
   # have covariates first
@@ -39,5 +43,17 @@ default_conditioning <- function(va_input){
     order <- va_input$variable_names
     names(order) <- va_input$variable_labels
   }
+  return(order)
+}
+
+#' @describeIn conditioning Conditions first jointly on all covariates and then on each of the random effects
+#' @export
+grouped_covariates_conditioning <- function(va_input){
+  cov_vars <- va_input$variable_names[which(va_input$variable_types=="covariate")]
+  other_vars_index <- which(va_input$variable_types!="covariate")
+  other_vars <- va_input$variable_names[other_vars_index]
+
+  order <- rlang::list2(cov_vars, !!!other_vars) %>%
+    rlang::set_names(c("Covariates", va_input$variable_labels[other_vars_index]))
   return(order)
 }
