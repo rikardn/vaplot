@@ -30,5 +30,6 @@ Imports:
     purrr,
     MASS,
     ggplot2,
-    glue
+    glue,
+    colorspace
 VignetteBuilder: knitr

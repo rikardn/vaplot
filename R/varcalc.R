@@ -48,9 +48,15 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
   column_types[column_names==idv_var] <- "idv"
   column_types[column_names %in% facet_vars] <- "facet_var"
   column_types[column_types==""] <- "variability"
+  variable_types <- purrr::modify_depth(conditioning_order, 2, ~linobj$variable_types[linobj$variable_names == .x], .ragged = TRUE)
+  variability_sources <- list(
+    variable_names = conditioning_order,
+    variable_types = variable_types
+  )
   va_res <- va_results(
     table = va_table,
-    column_types = column_types
+    column_types = column_types,
+    variability_sources = variability_sources
   )
   return(va_res)
 }

@@ -1,10 +1,10 @@
 #' Plot variability attribution
 #'
 #' @param va_results A va_result as produced by compute_va
-#' @param colors Color specifications
+#' @param coloring Color specifications
 #'
 #' @export
-plot_va <- function(va_results, colors = NULL){
+plot_va <- function(va_results, coloring = coloring_default){
 
   va_table <- va_results$table
   idv_var <- names(which(va_results$column_types == "idv"))
@@ -13,7 +13,8 @@ plot_va <- function(va_results, colors = NULL){
 
   plot_tab <- tidyr::gather(va_table, "source", "value", variability_vars) %>%
     dplyr::mutate(source = factor(source, levels = variability_vars))
-  if(is.null(colors)){
+  if(is.function(coloring)) colors <- coloring(va_results)
+  if(is.null(coloring)){
     ui_inform("No colors were provided, the plot will use default colors instead.")
     colors <- color_like_hadley(va_results)
   }

@@ -4,12 +4,12 @@
 \alias{plot_va}
 \title{Plot variability attribution}
 \usage{
-plot_va(va_results, colors = NULL)
+plot_va(va_results, coloring = coloring_default)
 }
 \arguments{
 \item{va_results}{A va_result as produced by compute_va}
 
-\item{colors}{Color specifications}
+\item{coloring}{Color specifications}
 }
 \description{
 Plot variability attribution

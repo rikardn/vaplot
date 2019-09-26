@@ -1,9 +1,10 @@
-va_results <- function(table, column_types){
+va_results <- function(table, column_types, variability_sources){
   return(
     structure(
       list(
         table = table,
-        column_types = column_types
+        column_types = column_types,
+        variability_sources = variability_sources
       ),
       class = 'va_results'
     ))
