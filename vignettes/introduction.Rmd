@@ -24,10 +24,10 @@ library(vaplot)
 lst_file <- system.file("testdata", "derivatives_run4.lst", package = "vaplot")
 
 # read NM results & prepare data structure
-va_input <- prepare_va_nm(lst_file)
+input <- prepare_va_nm(lst_file)
 
 # calculate variability attribution
-va_res <- compute_va(va_input, facets = "DVID")
+va_res <- compute_va(input, facets = "DVID")
 
 # generate va plot
 plot_va(va_res)
@@ -41,10 +41,10 @@ plot_va(va_res)
 frem_path <- system.file("testdata", "frem_pheno", package = "vaplot")
 
 # read FREM results & prepare data structure
-va_input <- prepare_va_frem(frem_path)
+input <- prepare_va_frem(frem_path)
 
 # calculate variability attribution
-va_res <- compute_va(va_input)
+va_res <- compute_va(input)
 
 # generate va plot
 plot_va(va_res)
@@ -71,7 +71,7 @@ theta <- c(3, 5, 0.1)
 eta <- c(0,0,0)
 z <- c(dose = 10)
 time <- seq(0, 20, length.out = 40)
-plot(time, my_model(time, theta, eta, 0, z))
+plot(time, my_model(time, theta, eta, 0, z), type = "line")
 
 omega <- diag(c(0.2,0.1,0.5), 3, 3)
 sigma <- matrix(.05, 1, 1)
