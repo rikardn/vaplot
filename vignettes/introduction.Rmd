@@ -71,7 +71,7 @@ theta <- c(3, 5, 0.1)
 eta <- c(0,0,0)
 z <- c(dose = 10)
 time <- seq(0, 20, length.out = 40)
-plot(time, my_model(time, theta, eta, 0, z), type = "line")
+plot(time, my_model(time, theta, eta, 0, z), type = "l")
 
 omega <- diag(c(0.2,0.1,0.5), 3, 3)
 sigma <- matrix(.05, 1, 1)

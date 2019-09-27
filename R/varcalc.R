@@ -42,21 +42,21 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
     dplyr::group_by_at(c(facet_vars, idv_var)) %>%
     dplyr::summarise_all(mean)
 
-  column_names <- colnames(va_table)
-  column_types <- rep("", length(column_names))
-  names(column_types) <- column_names
-  column_types[column_names==idv_var] <- "idv"
-  column_types[column_names %in% facet_vars] <- "facet_var"
-  column_types[column_types==""] <- "variability"
-  variable_types <- purrr::modify_depth(conditioning_order, 2, ~linobj$variable_types[linobj$variable_names == .x], .ragged = TRUE)
-  variability_sources <- list(
-    variable_names = conditioning_order,
-    variable_types = variable_types
-  )
+  # contruct result column specifications
+  variable_types <- purrr::map_depth(conditioning_order, 2,
+                                     ~linobj$variable_types[linobj$variable_names == .x], .ragged = TRUE)
+
+  col_specs <- purrr::map(colnames(va_table),
+                          ~results_col(name = .x,
+                                       type = dplyr::case_when(.x == idv_var ~ "idv",
+                                                               .x %in% facet_vars ~ "facet-var",
+                                                               TRUE ~ "variability"),
+                                       variables = conditioning_order[[.x]],
+                                       variable_types = variable_types[[.x]]
+                                       ))
   va_res <- va_results(
     table = va_table,
-    column_types = column_types,
-    variability_sources = variability_sources
+    !!!col_specs
   )
   return(va_res)
 }

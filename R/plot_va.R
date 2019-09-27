@@ -1,29 +1,26 @@
 #' Plot variability attribution
 #'
-#' @param va_results A va_result as produced by compute_va
+#' @param result A va_result as produced by compute_va
 #' @param coloring Color specifications
 #'
 #' @export
-plot_va <- function(va_results, coloring = coloring_default){
+plot_va <- function(result, coloring = coloring_default){
 
-  va_table <- va_results$table
-  idv_var <- names(which(va_results$column_types == "idv"))
-  facet_vars <- names(which(va_results$column_types == "facet_var"))
-  variability_vars <- names(which(va_results$column_types == "variability"))
-
-  plot_tab <- tidyr::gather(va_table, "source", "value", variability_vars) %>%
-    dplyr::mutate(source = factor(source, levels = variability_vars))
-  if(is.function(coloring)) colors <- coloring(va_results)
+  va_table <- result$table
+  plot_tab <- tidyr::gather(va_table, "source", "value", get_variability_cols(result)) %>%
+    dplyr::mutate(source = factor(source, levels = get_variability_cols(result)))
+  if(is.function(coloring)) colors <- coloring(result)
   if(is.null(coloring)){
     ui_inform("No colors were provided, the plot will use default colors instead.")
-    colors <- color_like_hadley(va_results)
+    colors <- color_like_hadley(result)
   }
-  p <- ggplot2::ggplot(plot_tab, ggplot2::aes_string(idv_var, "value", fill = "source"))+
+  p <- ggplot2::ggplot(plot_tab, ggplot2::aes_string(get_idv_col(result), "value", fill = "source"))+
     ggplot2::geom_area(position = ggplot2::position_fill(reverse = T))+
     ggplot2::scale_fill_manual("Source", values = colors)+
     ggplot2::scale_y_continuous("Percent of total variability", labels = percent_labels)+
     ggplot2::theme(legend.position = "bottom")
 
+  facet_vars <- get_facet_cols(result)
   if(!rlang::is_empty(facet_vars)){
     p <- p + ggplot2::facet_wrap(facet_vars, labeller = ggplot2::label_both)
   }

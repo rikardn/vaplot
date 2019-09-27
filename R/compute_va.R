@@ -43,7 +43,7 @@ default_conditioning <- function(va_input){
     order <- va_input$variable_names
     names(order) <- va_input$variable_labels
   }
-  return(order)
+  return(as.list(order))
 }
 
 #' @describeIn conditioning Conditions first jointly on all covariates and then on each of the random effects
