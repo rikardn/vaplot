@@ -19,7 +19,8 @@ nm_column_mappers <- function(deta_mapper = function(x) extract_int(x, "(?<=G)\\
 
 read_nm_table <- function(path){
   if(!file.exists(path)) rlang::cnd_signal(cnd_file_not_found(path))
-  tab <- read.table(path, header = TRUE, skip = 1, colClasses = "numeric")
+  tab <- try(read.table(path, header = TRUE, skip = 1, colClasses = "numeric"), silent = TRUE)
+  if(is_error(tab)) rlang::cnd_signal(cnd_unexpected_file_format(path))
   return(tab)
 }
 
