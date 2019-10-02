@@ -15,8 +15,7 @@ prepare_va_frem <- function(frem_path,
 
   # get derivatives data & merge with frem data
   derivatives_tab <- read_nm_table(file.path(frem_path, frem_specs$derivatives_table))
-  frem_data <- read_frem_data(file.path(frem_path, frem_specs$frem_dataset))
-  frem_data <- dplyr::select(frem_data, -.data$ID) %>%
+  frem_data <- read_frem_data(file.path(frem_path, frem_specs$frem_dataset)) %>%
     dplyr::select(-!!column_specs$deps_deta, -!!column_specs$deps, -!!column_specs$deta)
 
   all_data <- dplyr::bind_cols(derivatives_tab, frem_data)
