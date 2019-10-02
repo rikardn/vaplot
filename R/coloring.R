@@ -22,9 +22,9 @@ NULL
 #' @describeIn coloring Default
 coloring_default <- function(result, ...){
   var_names <- get_variability_cols(result)
-  nvars <- length(var_names)
-  colors <- colorspace::qualitative_hcl(n = nvars, h1 = 10, h2 = -350, c1 = 50, l1 = 80)
+  colors <- colorspace::qualitative_hcl(n = length(var_names), h1 = 10, h2 = -350, c1 = 50, l1 = 80)
   names(colors) <- var_names
+  colors[get_ruv_cols(result)] <- rgb(0.8,0.8,0.8)
   return(colors)
 }
 

@@ -45,7 +45,7 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
   # contruct result column specifications
   variable_types <- purrr::map_depth(conditioning_order, 2,
                                      ~linobj$variable_types[linobj$variable_names == .x], .ragged = TRUE)
-
+  variable_types[["RUV"]] <- "ruv"
   col_specs <- purrr::map(colnames(va_table),
                           ~results_col(name = .x,
                                        type = dplyr::case_when(.x == idv_var ~ "idv",
