@@ -47,7 +47,7 @@ input <- prepare_va_frem(frem_path)
 va_res <- compute_va(input)
 
 # generate va plot
-plot_va(va_res)
+plot_va(va_res, coloring = coloring_highlight_covs)
 
 ```
 

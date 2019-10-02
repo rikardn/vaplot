@@ -33,11 +33,12 @@ coloring_default <- function(result, ...){
 coloring_highlight_covs <- function(result, ...){
   var_names <- get_variability_cols(result)
   nvars <- length(var_names)
-  cov_index <- purrr::map_lgl(result$variability_sources$variable_types, ~any(.x=="covariate"))
+  cov_index <- var_names %in% get_cov_dependent_cols(result)
   colors <- colorspace::qualitative_hcl(n = nvars, h1 = 10, h2 = -350, c1 = 50, l1 = 80)
+  names(colors) <- var_names
   colors[!cov_index] <- colors[!cov_index] %>%
      colorspace::desaturate(amount = 0.5) %>%
       colorspace::lighten(amount = 0.3)
-  names(colors) <- names(result$variable_types)
+  colors[get_ruv_cols(result)] <- rgb(0.8,0.8,0.8)
   return(colors)
 }
