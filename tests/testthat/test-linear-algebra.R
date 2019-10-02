@@ -21,3 +21,8 @@ test_that("conditional variance for linearized f is calculated correctly", {
   omega <- matrix(c(2,0,0,1),2,2, dimnames = list(c("a","b"), c("a","b")))
   expect_equal(condvar_lf(df, omega, "a"), matrix(1,1,1))
 })
+
+test_that("ginv behaves like normal inv for invertible matricies",{
+  x <- matrix(c(1,2,2,1), 2,2, dimnames = list(c("A","B"), c("A","B")))
+  expect_equal(solve(x), ginv(x))
+})
