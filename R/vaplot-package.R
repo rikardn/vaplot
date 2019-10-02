@@ -37,7 +37,7 @@ NULL
 #' See \code{rlang::\link[rlang:.data]{.data}} for details.
 #'
 #' @name .data
-#' @rdname .data
+#' @rdname data_pronoun
 #' @keywords internal
 #' @export
 #' @importFrom rlang .data
