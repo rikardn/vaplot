@@ -22,9 +22,9 @@ NULL
 #' @describeIn coloring Default
 coloring_default <- function(result, ...){
   var_names <- get_variability_cols(result)
-  colors <- colorspace::qualitative_hcl(n = length(var_names), h1 = 10, h2 = -350, c1 = 50, l1 = 80)
+  colors <- colorspace::qualitative_hcl(n = length(var_names), h1 = 0, h2 = 260, c1 = 80, l1 = 60)
   names(colors) <- var_names
-  colors[get_ruv_cols(result)] <- rgb(0.8,0.8,0.8)
+  colors[get_ruv_cols(result)] <- rgb(0.5,0.5,0.5)
   return(colors)
 }
 
@@ -34,11 +34,11 @@ coloring_highlight_covs <- function(result, ...){
   var_names <- get_variability_cols(result)
   nvars <- length(var_names)
   cov_index <- var_names %in% get_cov_dependent_cols(result)
-  colors <- colorspace::qualitative_hcl(n = nvars, h1 = 10, h2 = -350, c1 = 50, l1 = 80)
+  colors <- colorspace::qualitative_hcl(n = nvars,  h1 = 0, h2 = 260, c1 = 80, l1 = 60)
   names(colors) <- var_names
   colors[!cov_index] <- colors[!cov_index] %>%
      colorspace::desaturate(amount = 0.5) %>%
       colorspace::lighten(amount = 0.3)
-  colors[get_ruv_cols(result)] <- rgb(0.8,0.8,0.8)
+  colors[get_ruv_cols(result)] <- rgb(0.7,0.7,0.7)
   return(colors)
 }
