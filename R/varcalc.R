@@ -46,6 +46,16 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
   variable_types <- purrr::map_depth(conditioning_order, 2,
                                      ~linobj$variable_types[linobj$variable_names == .x], .ragged = TRUE)
   variable_types[["RUV"]] <- "ruv"
+  # check if any variability columns contain negative values
+  min_vals <- purrr::map_dbl(va_table[names(variable_types)], min)
+  if(any(min_vals<0)){
+    neg_cols <- names(which(min_vals<0))
+    # set negative values to 0
+    va_table <-  dplyr::mutate_at(va_table, neg_cols, ~dplyr::if_else(.<0, 0, .))
+    # warn
+    rlang::cnd_signal(cnd_negative_var(neg_cols, min_val = min(min_vals)))
+  }
+
   col_specs <- purrr::map(colnames(va_table),
                           ~results_col(name = .x,
                                        type = dplyr::case_when(.x == idv_var ~ "idv",

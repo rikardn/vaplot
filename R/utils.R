@@ -80,3 +80,16 @@ cnd_unexpected_file_format <- function(path)
   rlang::error_cnd("unexpected_file_format", path = path,
                    message = paste0("The file '",path,"' had an unexpected format."))
 
+cnd_numerical_issue <- function(msg)
+  rlang::warning_cnd("numerical_issue", message = msg)
+
+cnd_negative_var <- function(cols, min_val){
+  if(length(cols)==1) {
+    msg <- glue::glue("The variability column {cols} was calculated to contain negative values",
+                      " (down to {format(min_val, digits = 2)}), these were corrected to zero.")
+  }else{
+    msg <- glue::glue("The variability columns {glue::glue_collapse(cols, ', ', last = ', and ')} were calculated",
+                      "to contain negative values (down to {format(min_val, digits = 2)}), these were corrected to zero.")
+  }
+  cnd_numerical_issue(msg)
+}
