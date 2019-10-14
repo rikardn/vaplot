@@ -4,9 +4,16 @@
 #' @param coloring Color specifications
 #'
 #' @export
-plot_va <- function(result, coloring = coloring_default){
+plot_va <- function(result, coloring = coloring_default, smooth = FALSE){
 
   va_table <- result$table
+  if(smooth){
+      if(!rlang::is_empty(get_facet_cols(result)))
+        va_table <- dplyr::group_by_at(va_table, get_facet_cols(result))
+      va_table <- dplyr::group_modify(va_table,
+                                      function(df, ...)
+                                        dplyr::mutate_at(df, get_variability_cols(result), ~smooth.spline(.data[[get_idv_col(result)]],log(.+1E-16))$y %>% exp))
+  }
   plot_tab <- tidyr::gather(va_table, "source", "value", get_variability_cols(result)) %>%
     dplyr::mutate(source = factor(source, levels = get_variability_cols(result)))
   if(is.function(coloring)) colors <- coloring(result)
