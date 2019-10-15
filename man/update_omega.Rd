@@ -2,18 +2,23 @@
 % Please edit documentation in R/va_input.R
 \name{update_omega}
 \alias{update_omega}
-\title{Update Omega matrix}
+\alias{update_sigma}
+\title{Update Omega/Sigma matrix}
 \usage{
 update_omega(input, omega)
+
+update_sigma(input, sigma)
 }
 \arguments{
 \item{input}{A VA input as produced by the prepare_va_* functions}
 
 \item{omega}{A covariance matrix}
+
+\item{sigma}{A covariance matrix}
 }
 \value{
 An updated VA input structure
 }
 \description{
-This function allows to update the Omega matrix associated with VA input structure.
+These functions allows to update the Omega and Sigma matricies associated with VA input structure.
 }

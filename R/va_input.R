@@ -24,12 +24,13 @@ va_input <- function(column_names, theta, omega,
     ))
 }
 
-#' Update Omega matrix
+#' Update Omega/Sigma matrix
 #'
-#' This function allows to update the Omega matrix associated with VA input structure.
+#' These functions allows to update the Omega and Sigma matricies associated with VA input structure.
 #'
 #' @param input A VA input as produced by the prepare_va_* functions
 #' @param omega A covariance matrix
+#' @param sigma A covariance matrix
 #'
 #' @return An updated VA input structure
 #' @export
@@ -38,6 +39,15 @@ update_omega <- function(input, omega){
      ui_error("The new Omega matrix needs to have the same dimensions as the old one.")
   input$omega <- omega
   return(input)
+}
+
+#' @rdname update_omega
+update_sigma <- function(input, sigma){
+  if(NROW(input$sigma)!=NROW(sigma) || NCOL(input$sigma)!=NCOL(sigma))
+    ui_error("The new Sigma matrix needs to have the same dimensions as the old one.")
+  input$sigma <- sigma
+  return(input)
+
 }
 
 #' @export
