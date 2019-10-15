@@ -16,6 +16,7 @@ compute_va <- function(va_input, conditioning = default_conditioning, idv = "TIM
   idv <- rlang::enquo(idv)
   facets <- rlang::enquo(facets)
   if(is.function(conditioning)) cond_order <- conditioning(va_input)
+  else cond_order <- conditioning
   var_calc_lf(va_input, cond_order, idv = idv, facets = facets)
 }
 
