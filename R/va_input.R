@@ -24,6 +24,22 @@ va_input <- function(column_names, theta, omega,
     ))
 }
 
+#' Update Omega matrix
+#'
+#' This function allows to update the Omega matrix associated with VA input structure.
+#'
+#' @param input A VA input as produced by the prepare_va_* functions
+#' @param omega A covariance matrix
+#'
+#' @return An updated VA input structure
+#' @export
+update_omega <- function(input, omega){
+  if(NROW(input$omega)!=NROW(omega) || NCOL(input$omega)!=NCOL(omega))
+     ui_error("The new Omega matrix needs to have the same dimensions as the old one.")
+  input$omega <- omega
+  return(input)
+}
+
 #' @export
 print.va_input <- function(x, ...){
   cat("VA input from a linearized NONMEM run\n")
