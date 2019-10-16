@@ -61,6 +61,12 @@ move_rows_to_bottom <- function(df, row_ids){
   dplyr::bind_rows(df, rows)
 }
 
+move_rows_to_top <- function(df, row_ids){
+  rows <- df[row_ids, ]
+  df <- df[-row_ids, ]
+  dplyr::bind_rows(rows, df)
+}
+
 is_error <- function(x) {
   inherits(x,"try-error")
 }

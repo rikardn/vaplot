@@ -62,8 +62,9 @@ combine_results <- function(...){
     ),
     class = "va_results"
   )
-  ruv_id <- which(get_all_cols(va_res) %in% get_ruv_cols(va_res))
-  va_res$column_specs <- move_rows_to_bottom(va_res$column_specs, ruv_id)
+  va_res <- va_res %>%
+    move_cols_to_end(get_ruv_cols(va_res)) %>%
+    move_cols_to_front(get_cov_dependent_cols(va_res))
   return(va_res)
 }
 
@@ -135,6 +136,18 @@ get_variable_types_chr <- function(results){
 get_variables <- function(results){
   purrr::set_names(results$column_specs$variables,
                    results$column_specs$name)
+}
+
+move_cols_to_front <- function(results, cols){
+  col_index <- which(get_all_cols(results) %in% cols)
+  results$column_specs <- move_rows_to_top(results$column_specs, col_index)
+  return(results)
+}
+
+move_cols_to_end <- function(results, cols){
+  col_index <- which(get_all_cols(results) %in% cols)
+  results$column_specs <- move_rows_to_bottom(results$column_specs, col_index)
+  return(results)
 }
 
 #' @export
