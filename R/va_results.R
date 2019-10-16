@@ -13,6 +13,7 @@ va_results <- function(table, ...){
 
 combine_results <- function(...){
   res_list <- rlang::list2(...)
+  if(!rlang::is_named(res_list)) res_list <- purrr::set_names(res_list, glue::glue("VA {i}", i = seq_along(res_list)))
   # extract all variable names
   var_names <- purrr::map(res_list, get_all_cols) %>% purrr::flatten_chr() %>% unique()
   # check that IDVs are identical

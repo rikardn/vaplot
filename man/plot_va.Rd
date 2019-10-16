@@ -4,7 +4,7 @@
 \alias{plot_va}
 \title{Plot variability attribution}
 \usage{
-plot_va(result, coloring = coloring_default)
+plot_va(result, coloring = coloring_default, smooth = FALSE)
 }
 \arguments{
 \item{result}{A va_result as produced by compute_va}
