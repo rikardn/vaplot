@@ -62,8 +62,8 @@ combine_results <- function(...){
     ),
     class = "va_results"
   )
-  ruv_id <- which(get_ruv_cols(va_res) %in% get_all_cols(va_res))
-  va_res$table <- move_rows_to_bottom(va_res$table, ruv_id)
+  ruv_id <- which(get_all_cols(va_res) %in% get_ruv_cols(va_res))
+  va_res$column_specs <- move_rows_to_bottom(va_res$column_specs, ruv_id)
   return(va_res)
 }
 
