@@ -55,6 +55,12 @@ extract_int <- function(x, regex) {
     as.integer()
 }
 
+move_rows_to_bottom <- function(df, row_ids){
+  rows <- df[row_ids, ]
+  df <- df[-row_ids, ]
+  dplyr::bind_rows(df, rows)
+}
+
 is_error <- function(x) {
   inherits(x,"try-error")
 }

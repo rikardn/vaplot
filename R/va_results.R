@@ -55,15 +55,16 @@ combine_results <- function(...){
       .result = factor(.data$.result, levels = names(res_list))
     ) %>%
     dplyr::mutate_at(variability_cols, ~ifelse(is.na(.), 0, .))
-  return(
-    structure(
-      list(
-        column_specs = column_specs,
-        table = table
-      ),
-      class = "va_results"
-    )
+  va_res <- structure(
+    list(
+      column_specs = column_specs,
+      table = table
+    ),
+    class = "va_results"
   )
+  ruv_id <- which(get_ruv_cols(va_res) %in% get_all_cols(va_res))
+  va_res$table <- move_rows_to_bottom(va_res$table, ruv_id)
+  return(va_res)
 }
 
 results_col <- function(name, type, variables = NULL, variable_types = NULL){
