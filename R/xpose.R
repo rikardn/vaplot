@@ -63,10 +63,10 @@ split_table_data <- function(tab, ignore_expr, column_specs, column_mappers, eta
 
   # default ignore when argument is not provided
   if(missing(ignore_expr)|| rlang::quo_is_missing(ignore_expr)){
+    ignore_expr <- rlang::quo(FALSE)
     if("EVID" %in% column_names) ignore_expr <- rlang::quo(EVID!=0)
     if("MDV" %in% column_names) ignore_expr <- rlang::quo(MDV!=0)
-    if(all(c("MDV", "EVID") %in% column_names)) ignore_expr <- rlang::quo(EVID!=0&MDV!=0)
-    else ignore_expr <- rlang::quo(FALSE)
+    if(all(c("MDV", "EVID") %in% column_names)) ignore_expr <- rlang::quo(EVID!=0|MDV!=0)
   }
   tab <- dplyr::filter(tab, !(!!ignore_expr))
 
