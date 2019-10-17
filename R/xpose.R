@@ -62,7 +62,7 @@ split_table_data <- function(tab, ignore_expr, column_specs, column_mappers, eta
   column_names <- colnames(tab)
 
   # default ignore when argument is not provided
-  if(rlang::quo_is_missing(ignore_expr)){
+  if(missing(ignore_expr)|| rlang::quo_is_missing(ignore_expr)){
     if("EVID" %in% column_names) ignore_expr <- rlang::quo(EVID!=0)
     else ignore_expr <- rlang::quo(FALSE)
   }
