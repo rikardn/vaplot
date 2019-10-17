@@ -19,7 +19,7 @@ prepare_va_frem <- function(frem_path,
     dplyr::select(-!!column_specs$deps_deta, -!!column_specs$deps, -!!column_specs$deta)
 
   all_data <- dplyr::bind_cols(derivatives_tab, frem_data) %>%
-    dplyr::filter(.data$FREMTYPE>0)
+    dplyr::filter(.data$FREMTYPE==0)
 
   # read & prepare estimates
   estimates <- get_final_frem_estimates(file.path(frem_path, frem_specs$ext_file))
