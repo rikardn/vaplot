@@ -18,7 +18,8 @@ prepare_va_frem <- function(frem_path,
   frem_data <- read_frem_data(file.path(frem_path, frem_specs$frem_dataset)) %>%
     dplyr::select(-!!column_specs$deps_deta, -!!column_specs$deps, -!!column_specs$deta)
 
-  all_data <- dplyr::bind_cols(derivatives_tab, frem_data)
+  all_data <- dplyr::bind_cols(derivatives_tab, frem_data) %>%
+    dplyr::filter(.data$FREMTYPE>0)
 
   # read & prepare estimates
   estimates <- get_final_frem_estimates(file.path(frem_path, frem_specs$ext_file))
@@ -28,7 +29,6 @@ prepare_va_frem <- function(frem_path,
   eta_names <- glue::glue("ETA{i}", i = seq_len(neta))
   eps_names <- glue::glue("EPS{i}", i = seq_len(neps))
   tab_split <- split_table_data(all_data,
-                                ignore_expr = rlang::quo(.data$FREMTYPE>0&.data$EVID!=0),
                                 column_specs = column_specs,
                                 column_mappers = column_mappers,
                                 eta_names = eta_names,
