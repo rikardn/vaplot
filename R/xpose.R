@@ -94,7 +94,7 @@ split_table_data <- function(tab, ignore_expr, column_specs, column_mappers, eta
   id_column <- tab[[column_groups[["id"]]]]
 
   # split by ID and extract column groups
-  res <- split(tab, id_column) %>%
+  res <- split(tab, id_column, drop = TRUE) %>%
     purrr::map(function(df) purrr::imap(column_groups,
                                         ~select_rows(.x, .y, df, mappers = column_mappers,
                                                      eta_names = eta_names, eps_names = eps_names)))
