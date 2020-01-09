@@ -39,6 +39,7 @@ var_calc_lf <- function(linobj, conditioning_order, idv, facets){
                   purrr::update_list(RUV = var_ruv_lf(.x$deps, .x$deps_deta, linobj$omega, linobj$sigma)) %>%
                   dplyr::as_tibble() %>%
                   dplyr::bind_cols(dplyr::select(.x$other, idv_var, facet_vars))) %>%
+    dplyr::mutate_at(idv_var, round, 4) %>%
     dplyr::group_by_at(c(facet_vars, idv_var)) %>%
     dplyr::summarise_all(mean)
 
