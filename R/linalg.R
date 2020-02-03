@@ -1,11 +1,15 @@
 
 schur_complement <- function(M, block_index){
-  ginv(M)[-block_index, -block_index] %>% ginv()
-  #  M[-block_index, -block_index] - M[block_index, -block_index] %*% MASS::ginv(M[block_index, block_index]) %*% M[-block_index, block_index]
+  #ginv(M)[-block_index, -block_index] %>% ginv()
+  M[-block_index, -block_index] - M[block_index, -block_index] %*% solve(M[block_index, block_index]) %*% M[-block_index, block_index]
 }
 
 schur_complement_named <- function(M, block_names) {
-  ginv(M) %>% drc(block_names) %>% ginv()
+  A <- drc(M, drop = block_names)
+  B <- dsrc(M, drop_rows = block_names, select_cols = block_names)
+  D <- src(M, block_names)
+  A - B %*% solve(D) %*% t(B)
+  #ginv(M) %>% drc(block_names) %>% ginv()
 }
 
 # var(f(x)) with Var(x)=sigma
