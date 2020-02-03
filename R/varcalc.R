@@ -86,6 +86,14 @@ var_ruv_lf <- function(deps, deps_deta, omega, sigma){
 
 
 var_iiv_from_cond_lf <- function(deta, omega, vars, cond_on = c()){
+  # test if any eta has omega fixed to zero and remove if so
+  zv_eta <- zero_var_eta(omega)
+  if(!rlang::is_empty(zv_eta)){
+    omega <- drc(omega, zv_eta)
+    vars <- setdiff(vars, zv_eta)
+    cond_on <- setdiff(cond_on, zv_eta)
+    deta <- deta[, !colnames(deta) %in% zv_eta, drop=FALSE]
+  }
   if(length(cond_on)==0) return(var_iiv_from_lf(deta, omega, vars))
   var_iiv_cond_lf(deta, omega, cond_on) - var_iiv_cond_lf(deta, omega, union(vars, cond_on))
 }

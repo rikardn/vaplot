@@ -7,6 +7,11 @@ lower_tri_vec_to_mat <-  function(vec){
   return(mat)
 }
 
+# this function returns the names of the ETAs with zero variability
+zero_var_eta <- function(omega){
+  colnames(omega)[abs(diag(omega)) < .Machine$double.eps^0.5]
+}
+
 # function to drop the named rows and columns in a square matrix
 drc <- function(x, drop){
   if(NROW(x) == NCOL(x)){
