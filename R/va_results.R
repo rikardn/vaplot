@@ -139,6 +139,7 @@ get_variables <- function(results){
 }
 
 move_cols_to_front <- function(results, cols){
+  if(rlang::is_empty(cols)) return(results)
   col_index <- which(get_all_cols(results) %in% cols)
   results$column_specs <- move_rows_to_top(results$column_specs, col_index)
   return(results)
