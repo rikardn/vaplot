@@ -5,10 +5,7 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/sebastianueckert/vaplot.svg?branch=master)](https://travis-ci.org/sebastianueckert/vaplot)
-[![Codecov test
-coverage](https://codecov.io/gh/sebastianueckert/vaplot/branch/master/graph/badge.svg)](https://codecov.io/gh/sebastianueckert/vaplot?branch=master)
+[![R-CMD-check](https://github.com/sebastianueckert/vaplot/workflows/R-CMD-check/badge.svg)](https://github.com/sebastianueckert/vaplot/actions)
 <!-- badges: end -->
 
 The goal of vaplot is to …
