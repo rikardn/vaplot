@@ -85,5 +85,5 @@ compose_plot <- function(plot_tab, result, colors){
 }
 
 percent_labels <- function(x){
-  paste0(format(x*100, digits = 0), "%")
+  paste0(format(x*100, digits=NULL), "%")
 }
